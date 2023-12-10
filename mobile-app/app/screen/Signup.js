@@ -169,7 +169,7 @@ const Signup = ({ navigation }) => {
         </View>
 
         <Button
-          title="Sing up"
+          title="Sign up"
           filled
           style={{
             marginTop: 18,
