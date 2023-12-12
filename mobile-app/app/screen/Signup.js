@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { View, Text, TextInput, TouchableOpacity, SafeAreaView, Pressable, Platform } from 'react-native'
-// import { SafeAreaView } from 'react-native-safe-area-context'
 import COLORS from '../../constants/colors'
 import Checkbox from 'expo-checkbox'
 import { Ionicons } from '@expo/vector-icons'
@@ -194,7 +193,7 @@ const Signup = ({ navigation }) => {
           }}>
             <Text style={{ fontSize:16, color: COLORS.black }}>Already have an account?</Text>
             <Pressable 
-            onPress={() => navigation.navigate("Welcome")}
+            onPress={() => navigation.navigate("Login")}
             >
               <Text style={{
                 fontSize: 16,

@@ -1,66 +1,68 @@
-import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  KeyboardAvoidingView,
-  Image,
-  StyleSheet,
-  SafeAreaView,
-  Pressable,
-  Platform,
-  ScrollView
-} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, TextInput, KeyboardAvoidingView, Image, StyleSheet, ActivityIndicator, Pressable } from 'react-native';
 import COLORS from '../../constants/colors';
-import Checkbox from 'expo-checkbox';
 import Button from '../Buttons/Button';
 import { useDispatch } from 'react-redux';
-import { LoginData } from '../../utils/LoginData';
 import { loginUser } from '../../Slices/authSlice';
 
-const imageUrl =
-  'https://immigrantinvest.com/wp-content/uploads/2022/03/best-banks-2021-40543452.jpg';
+const imageUrl = "https://immigrantinvest.com/wp-content/uploads/2022/03/best-banks-2021-40543452.jpg";
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const api = 'https://jsonplaceholder.typicode.com/users';
 
-  function handleLogin() {
-    if (LoginData.email !== email && LoginData.password !== password) {
-      alert('Invalid email or password');
-      // navigation.replace('Login')
-    } else {
-      dispatch(loginUser({ email, password, name: LoginData.name }));
-      navigation.replace('Home');
+  const fetchData = async () => {
+    try {
+      const response = await fetch(api);
+      const dataUsers = await response.json();
+      return dataUsers;
+    } catch (error) {
+      console.log('Error fetching data', error);
+      throw error;
     }
-  }
+  };
+
+  const handleLogin = async () => {
+    try {
+      setLoading(true);
+
+      const dataUsers = await fetchData();
+
+      const matchingUser = dataUsers.find(user => user.email === email && user.username === password);
+
+      if (matchingUser) {
+        dispatch(loginUser({ email, password, name: matchingUser.name }));
+        navigation.replace('Home');
+      } else {
+        alert('Invalid email or password');
+      }
+    } catch (error) {
+      console.error('Error handling login:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <KeyboardAvoidingView
-      behavior="padding"
+      behavior='padding'
       style={{
-        height: "100%",
+        flex: 1,
         marginHorizontal: 22,
       }}
     >
-      {Platform.OS === 'android' && (
-        <SafeAreaView style={{ flex: -1 }}>
-          {/* Render SafeAreaView only for Android */}
-        </SafeAreaView>
-      )}
-
       <Image style={styles.image} source={require('../../assets/FB.png')} />
 
       <View style={{ marginBottom: 12 }}>
-        <Text style={{ fontSize: 16, fontWeight: 400, marginVertical: 8 }}>
-          Email address
-        </Text>
+        <Text style={{ fontSize: 16, fontWeight: 400, marginVertical: 8 }}>Email address</Text>
         <View style={styles.inputContainer}>
           <TextInput
-            placeholder="Enter your email address"
+            placeholder='Enter your email address'
             placeholderTextColor={COLORS.black}
-            keyboardType="email-address"
+            keyboardType='email-address'
             value={email}
             onChangeText={(userInput) => setEmail(userInput)}
             style={{ width: '100%' }}
@@ -69,12 +71,10 @@ const Login = ({ navigation }) => {
       </View>
 
       <View style={{ marginBottom: 12 }}>
-        <Text style={{ fontSize: 16, fontWeight: 400, marginVertical: 8 }}>
-          Password
-        </Text>
+        <Text style={{ fontSize: 16, fontWeight: 400, marginVertical: 8 }}>Password</Text>
         <View style={styles.inputContainer}>
           <TextInput
-            placeholder="Enter your password"
+            placeholder='Enter your password'
             placeholderTextColor={COLORS.black}
             secureTextEntry
             value={password}
@@ -85,9 +85,7 @@ const Login = ({ navigation }) => {
       </View>
 
       <Button
-        onPress={() => {
-          handleLogin();
-        }}
+        onPress={handleLogin}
         title="Login"
         filled
         style={{ marginTop: 18, marginBottom: 4 }}
@@ -105,6 +103,8 @@ const Login = ({ navigation }) => {
           </Pressable>
         </View>
       </View>
+
+      {loading && <ActivityIndicator size="large" color={COLORS.primary} />}
     </KeyboardAvoidingView>
   );
 };
