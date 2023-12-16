@@ -1,11 +1,12 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import { Signup, Welcome, ForgotPassword } from './app/screen';
+import { Signup, Welcome, ForgotPassword, HomeScreen, Login } from './app/screen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StyleSheet, Text, View } from 'react-native';
-import ScreenImport from './utils/ScreenImport';
-import { Provider } from 'react-redux';
+import { Provider, useSelector, useDispatch } from 'react-redux';
 import store from './store/store';
+import LoginData from './utils/LoginData';
+
 
 
 const Stack = createNativeStackNavigator()
@@ -17,8 +18,8 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator initialRouteName='welcome'>
           <Stack.Screen
-            name='Welcome'
-            component={Welcome}
+            name='Login'
+            component={Login}
             options={{
               headerShown: false
             }}
@@ -33,6 +34,13 @@ export default function App() {
           <Stack.Screen
             name='ForgotPassword'
             component={ForgotPassword}
+            options={{
+              headerShown: false
+            }}
+          />
+          <Stack.Screen
+            name='Home'
+            component={HomeScreen}
             options={{
               headerShown: false
             }}

@@ -1,8 +1,8 @@
-import { View, Button, Text, SafeAreaView, StyleSheet, Dimensions, ImageBackground, ScrollView, KeyboardAvoidingView, Pressable, Platform } from 'react-native';
-
-
+import React, { useState } from 'react'
+import { View, Text, SafeAreaView, StyleSheet, Pressable, Platform } from 'react-native';
 import Login from './Login';
 import COLORS from '../../constants/colors';
+import Button from '../Buttons/Button'
 
 
 
@@ -12,12 +12,27 @@ function Welcome({ navigation }) {
     <SafeAreaView >
       <View
         style={{
-          height: Platform.OS == 'ios' ? "80%" : "80%",
+          height: Platform.OS == 'ios' ? "73%" : "70%",
           marginTop: Platform.OS == 'ios' ? 10 : 20
         }}
       >
         <Login />
+        <View style={{
+          marginTop: Platform.OS == 'ios' ? -190 : 0
+        }}>
+          <Button
+            onPress={() => navigation.replace('Home')}
+            title="Login"
+            filled
+            style={{
+              marginTop: 1,
+              marginBottom: 4,
+              marginLeft: 20,
+              marginRight: 20
+            }} />
+        </View>
       </View>
+
       <View style={{
         flexDirection: "row",
         alignItems: "center",
@@ -25,40 +40,7 @@ function Welcome({ navigation }) {
       }}>
 
       </View>
-      <View style={{
-        flexDirection: "row",
-        justifyContent: "center",
-        marginVertical: "0%"
-      }}>
-        <Pressable
-          onPress={() => navigation.navigate('Signup')}
-        >
-          <Text style={{
-            fontSize: 16,
-            color: COLORS.primary,
-            fontWeight: "bold",
-            marginLeft: 6
-          }}>Create an Account</Text>
-        </Pressable>
-      </View>
-      <View style={{
-        flexDirection: "row",
-        justifyContent: "center",
-        marginVertical: "0%",
-        marginTop: Platform.OS == 'ios' ? 20 : 10
-      }}>
-        <Pressable
-          onPress={() => navigation.navigate('ForgotPassword')}
-        >
-          <Text style={{
-            fontSize: 16,
-            color: COLORS.primary,
-            fontWeight: "bold",
-            marginLeft: 6,
-            paddingBottom: Platform.OS == 'ios' ? 20 : 1
-          }}>Forgot Password</Text>
-        </Pressable>
-      </View>
+
     </SafeAreaView>
   )
 }
