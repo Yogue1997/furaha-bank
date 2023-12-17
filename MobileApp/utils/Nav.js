@@ -3,9 +3,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ForgotPassword, HomeScreen, Login, Signup } from '../app/screen';
 import Home from '../app/TabScreen/Home';
-import ProfileScreen from '../screens/ProfileScreen';
 import Transfer from '../app/TabScreen/Transfer';
 import Icon from 'react-native-vector-icons/Ionicons';
+import ProfileScreen from '../app/screen/ProfileScreen';
+
 
 
 const Stack = createNativeStackNavigator();

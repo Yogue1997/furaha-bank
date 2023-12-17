@@ -18,9 +18,9 @@ import Button from '../Buttons/Button';
 import { useDispatch } from 'react-redux';
 import { LoginData } from '../../utils/LoginData';
 import { loginUser } from '../../Slices/authSlice';
+import Loading from '../../utils/Loading';
 
-const imageUrl =
-  'https://immigrantinvest.com/wp-content/uploads/2022/03/best-banks-2021-40543452.jpg';
+
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState('');
