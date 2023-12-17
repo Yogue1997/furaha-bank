@@ -6,8 +6,8 @@ import { StatusBar } from 'react-native';
 import store from './store/store';
 import { MainStackScreen, TabNavigator } from './utils/Nav';
 
-const Stack = createNativeStackNavigator();
 
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
