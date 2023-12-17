@@ -3,13 +3,13 @@ import { Provider } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage'; // Import AsyncStorage
 import store from './store/store';
 import { MainStackScreen, TabNavigator } from './utils/Nav';
 
 const Stack = createNativeStackNavigator();
 
-
-export default function App() {
+const App = () => {
   return (
     <Provider store={store}>
       <NavigationContainer>
@@ -29,5 +29,6 @@ export default function App() {
       <StatusBar style='auto' />
     </Provider>
   );
-}
+};
 
+export default App;

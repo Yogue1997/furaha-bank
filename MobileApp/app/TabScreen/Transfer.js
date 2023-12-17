@@ -22,11 +22,6 @@ const Transfer = () => {
     }
   }, [numbers]);
 
-  console.log('====================================');
-  console.log(typeof (userInput));
-  console.log(typeof (numbers));
-  console.log(numbers);
-  console.log('====================================');
 
   const handleAdd = (input) => {
     if (input === '.') {

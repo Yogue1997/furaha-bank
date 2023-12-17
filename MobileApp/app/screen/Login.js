@@ -1,6 +1,4 @@
-// Login.js
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -12,7 +10,7 @@ import {
   Pressable,
   Platform,
 } from 'react-native';
-
+import AsyncStorage from '@react-native-async-storage/async-storage'; // Import AsyncStorage
 import COLORS from '../../constants/colors';
 import Button from '../Buttons/Button';
 import { useDispatch } from 'react-redux';
@@ -27,14 +25,30 @@ const Login = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
 
-  function handleLogin() {
-    if (LoginData.email !== email && LoginData.password !== password) {
+  useEffect(() => {
+    // Check if the user is already logged in when the component mounts
+    checkLoginStatus();
+  }, []);
+
+  const checkLoginStatus = async () => {
+    const userToken = await AsyncStorage.getItem('userToken');
+    if (userToken) {
+      // If a user token is found, navigate to the main screen
+      navigation.replace('Tabs');
+    }
+  };
+
+  const handleLogin = () => {
+    if (LoginData.email !== email || LoginData.password !== password) {
       alert('Invalid email or password');
     } else {
+      // Save user data to AsyncStorage
+      AsyncStorage.setItem('userToken', 'your_user_token_here');
+
       dispatch(loginUser({ email, password, name: LoginData.name }));
       navigation.replace('Tabs');
     }
-  }
+  };
 
   return (
     <View
@@ -51,7 +65,7 @@ const Login = ({ navigation }) => {
       <Image style={styles.image} source={require('../../assets/FB.png')} />
 
       <View style={{ marginBottom: 12 }}>
-        <Text style={{ fontSize: 16, fontWeight: 400, marginVertical: 8 }}>
+        <Text style={{ fontSize: 16, fontWeight: '400', marginVertical: 8 }}>
           Email address
         </Text>
         <View style={styles.inputContainer}>
@@ -67,7 +81,7 @@ const Login = ({ navigation }) => {
       </View>
 
       <View style={{ marginBottom: 12 }}>
-        <Text style={{ fontSize: 16, fontWeight: 400, marginVertical: 8 }}>
+        <Text style={{ fontSize: 16, fontWeight: '400', marginVertical: 8 }}>
           Password
         </Text>
         <View style={styles.inputContainer}>
@@ -83,9 +97,7 @@ const Login = ({ navigation }) => {
       </View>
 
       <Button
-        onPress={() => {
-          handleLogin();
-        }}
+        onPress={handleLogin}
         title='Login'
         filled
         style={{ marginTop: 18, marginBottom: 4 }}
@@ -138,4 +150,3 @@ const styles = StyleSheet.create({
 });
 
 export default Login;
-
